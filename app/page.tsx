@@ -10,9 +10,13 @@ interface Pokemon {
 }
 
 export default function Home() {
+  const tableHead = ["No.", "Pokemon Name", "Link URL"];
+
   const [data, setData] = useState<Pokemon[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+
   const itemsPerPage = 8;
+  const numberData = (currentPage - 1) * itemsPerPage + 1;
 
   const getData = (offset: number) => {
     axios
@@ -37,16 +41,6 @@ export default function Home() {
     getData(0);
   }, []);
 
-  const numberData = (currentPage - 1) * itemsPerPage + 1;
-
-  const rows = data.map((data, index) => (
-    <Table.Tr key={index}>
-      <Table.Td>{numberData + index}</Table.Td>
-      <Table.Td>{data.name}</Table.Td>
-      <Table.Td>{data.url}</Table.Td>
-    </Table.Tr>
-  ));
-
   return (
     <>
       <div className="flex justify-center items-center h-screen bg-blue-400">
@@ -58,12 +52,20 @@ export default function Home() {
           <Table>
             <Table.Thead className="bg-blue-400">
               <Table.Tr>
-                <Table.Th>No.</Table.Th>
-                <Table.Th>Pokemon Name</Table.Th>
-                <Table.Th>Link URL</Table.Th>
+                {tableHead.map((data, index) => (
+                  <Table.Th key={index}>{data}</Table.Th>
+                ))}
               </Table.Tr>
             </Table.Thead>
-            <Table.Tbody>{rows}</Table.Tbody>
+            <Table.Tbody>
+              {data.map((data, index) => (
+                <Table.Tr key={index}>
+                  <Table.Td>{numberData + index}</Table.Td>
+                  <Table.Td>{data.name}</Table.Td>
+                  <Table.Td>{data.url}</Table.Td>
+                </Table.Tr>
+              ))}
+            </Table.Tbody>
           </Table>
           <div className="flex justify-end mt-3">
             <Pagination
