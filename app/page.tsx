@@ -20,7 +20,7 @@ export default function Home() {
         `https://pokeapi.co/api/v2/pokemon?limit=${itemsPerPage}&offset=${offset}`
       )
       .then((response) => {
-        // console.log(response.data.results);
+        console.log(response.data.results);
         setData(response.data.results);
       })
       .catch((error) => {
@@ -37,13 +37,13 @@ export default function Home() {
     getData(0);
   }, []);
 
-  const startIndex = (currentPage - 1) * itemsPerPage + 1;
+  const numberData = (currentPage - 1) * itemsPerPage + 1;
 
-  const rows = data.map((pokemon, index) => (
-    <Table.Tr key={index} className="">
-      <Table.Td>{startIndex + index}</Table.Td>
-      <Table.Td>{pokemon.name}</Table.Td>
-      <Table.Td>{pokemon.url}</Table.Td>
+  const rows = data.map((data, index) => (
+    <Table.Tr key={index}>
+      <Table.Td>{numberData + index}</Table.Td>
+      <Table.Td>{data.name}</Table.Td>
+      <Table.Td>{data.url}</Table.Td>
     </Table.Tr>
   ));
 
@@ -51,21 +51,21 @@ export default function Home() {
     <>
       <div className="flex justify-center items-center h-screen bg-blue-400">
         <div className="bg-white border rounded-md w-2/3 p-5 shadow-xl">
-          <div className="flex justify-between mb-2">
+          <div className="flex justify-between mb-3">
             <h1 className="text-xl font-semibold">Data Pokemon</h1>
-            <Input placeholder="Search" />
+            <Input className="w-1/3" placeholder="Search" />
           </div>
           <Table>
             <Table.Thead className="bg-blue-400">
               <Table.Tr>
                 <Table.Th>No.</Table.Th>
-                <Table.Th>Name</Table.Th>
-                <Table.Th>URL</Table.Th>
+                <Table.Th>Pokemon Name</Table.Th>
+                <Table.Th>Link URL</Table.Th>
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>{rows}</Table.Tbody>
           </Table>
-          <div className="flex justify-end mt-4">
+          <div className="flex justify-end mt-3">
             <Pagination
               total={8}
               value={currentPage}
